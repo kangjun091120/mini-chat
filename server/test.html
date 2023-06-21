@@ -1,0 +1,28 @@
+<script>
+    const ws = new WebSocket("ws://localhost:8080/ws/test");
+    //连接打开时触发 
+    ws.onopen = function () {
+        console.log("Connection open ...");
+    };
+    //接收到消息时触发  
+    ws.onmessage = function (msg) {
+        //收到信息为Blob类型时
+        if (msg.data instanceof Blob) {
+            const reader = new FileReader();
+            reader.readAsText(msg.data, "UTF-8");
+            reader.onload = () => {
+                //字符串和json格式
+                console.log(reader.result)
+                // result = JSON.parse(reader.result);
+                // console.log('websocket收到', result);
+                // oList.appendChild(creatMsg(result));
+            }
+        }
+    };
+    //连接关闭时触发  
+    ws.onclose = function () {
+        console.log("Connection closed.");
+    };
+
+
+</script>
