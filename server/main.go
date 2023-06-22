@@ -48,7 +48,7 @@ func main() {
 			context.JSON(http.StatusOK, gin.H{
 				"code":   200,
 				"status": "SUCCESS",
-				"error":  "",
+				"userid": "aa",
 			})
 		} else {
 			context.JSON(http.StatusOK, gin.H{
