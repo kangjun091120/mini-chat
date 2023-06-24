@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket 客户端</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script>
+    let socket;
+
+    function connect() {
+      let idInput = document.getElementById("idInput");
+      let id = idInput.value;
+
+      socket = new WebSocket("ws://localhost:8080");
+
+      socket.onopen = function(e) {
+        console.log("[开启连接] 连接到服务器");
+        if (typeof id === 'string' && id !== '') {
+          socket.send(JSON.stringify({ id: id }));
+        } else {
+          console.log("无效的 ID: ID 应为字符串且不能为空。");
+        }
+      };
+
+      socket.onmessage = function(event) {
+        console.log(`[服务器消息] 数据: ${event.data}`);
+      };
+
+      socket.onclose = function(event) {
+        if (event.wasClean) {
+          console.log(`[关闭连接] 连接已经关闭，代码=${event.code} 原因=${event.reason}`);
+        } else {
+          console.log('[关闭连接] 连接意外关闭');
+        }
+      };
+
+      socket.onerror = function(error) {
+        console.log(`[错误] ${error.message}`);
+      };
+    }
+
+    function sendMessage() {
+      let messageInput = document.getElementById("messageInput");
+      let message = messageInput.value;
+      var url = "http://localhost:8080/send";
+      var data = {
+        id: '2',
+        message: message
+      };
+      
+      $.ajax({
+        url: url,
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function(response) {
+          console.log(response);
+        },
+      });
+      messageInput.value = '';
+    }
+
+    function sendRequest() {
+
+    }
+  </script>
+</head>
+<body>
+  <input id="idInput" type="text" placeholder="输入你的 ID" />
+  <button onclick="connect()">连接服务器</button>
+  <input id="messageInput" type="text" placeholder="输入你的消息" />
+  <button onclick="sendMessage()">发送消息</button>
+</body>
+</html>
