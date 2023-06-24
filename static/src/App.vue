@@ -26,8 +26,8 @@ export default {
     sendMessage() {
       let messageInput = document.getElementById("messageInput");
       let message = messageInput.value;
-      var url = "http://localhost:81/send";
-      var data = {
+      let url = "http://localhost:81/send";
+      let data = {
         id: '11',
         message: message
       };
