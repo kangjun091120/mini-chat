@@ -9,7 +9,7 @@ import (
 var db *sqlx.DB
 
 func InitDB() {
-	database, err := sqlx.Open("mysql", "root:Admin@tcp(127.0.0.1:3306)/chatter")
+	database, err := sqlx.Open("mysql", "root:Admin@tcp(127.0.0.1:3306)/mini-chat")
 	if err != nil {
 		fmt.Println("open mysql failed,", err)
 		return
